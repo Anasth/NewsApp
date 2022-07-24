@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:newsapp/businessModule/controller/businessStates.dart';
 import 'package:newsapp/businessModule/view/businessScreen.dart';
 import 'package:newsapp/homeModule/controller/cacheHelper.dart';
 import 'package:newsapp/homeModule/controller/dio_helper.dart';
@@ -47,6 +48,14 @@ class homeCubit extends Cubit<homeStates> {
 
   void changeBottomNavBar(int index) {
     currentIndex = index;
+    if (index == 0) {
+      getBusiness();
+      emit(NewsGetBusinessSucessState());
+    } else if (index == 1) {
+      getSports();
+    } else if (index == 2) {
+      getScience();
+    }
     emit(NewsButtomNav());
   }
 
@@ -149,6 +158,32 @@ class homeCubit extends Cubit<homeStates> {
         print(onError.toString());
 
         emit(NewsGetScienceErrorState(onError.toString()));
+      },
+    );
+  }
+
+  List<dynamic> search = [];
+
+  void getSearch(String value) {
+    emit(NewsGetSearchLoadingState());
+
+    search = [];
+
+    DioHelper.getDate(
+      'v2/everything',
+      {'q': '${value}', 'apiKey': '9871caaf1b4b43e6a22cb2b97c848e76 '},
+    ).then(
+      (value) {
+        search = value.data['articles'];
+        print(search[0]['title']);
+
+        emit(NewsGetSearchSucessState());
+      },
+    ).catchError(
+      (onError) {
+        print(onError.toString());
+
+        emit(NewsGetSearchErrorStateE(onError.toString()));
       },
     );
   }

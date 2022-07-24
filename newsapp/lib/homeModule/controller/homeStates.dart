@@ -31,5 +31,13 @@ class NewsGetScienceErrorState extends homeStates {
   NewsGetScienceErrorState(this.error);
 }
 
+class NewsChangeAppTheme extends homeStates {}
 
-class NewsChangeAppTheme extends homeStates{}
+class NewsGetSearchSucessState extends homeStates {}
+
+class NewsGetSearchLoadingState extends homeStates {}
+
+class NewsGetSearchErrorStateE extends homeStates {
+  final String error;
+  NewsGetSearchErrorStateE(this.error);
+}

@@ -30,11 +30,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) => homeCubit()
-        ..changeAppMode(
-          fromShared: isDark,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (BuildContext context) => homeCubit()
+            ..changeAppMode(
+              fromShared: isDark,
+            )..getBusiness()
         ),
+       
+      ],
       child: BlocConsumer<homeCubit, homeStates>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -49,6 +54,7 @@ class MyApp extends StatelessWidget {
               appBarTheme: AppBarTheme(
                 systemOverlayStyle: SystemUiOverlayStyle(
                   statusBarBrightness: Brightness.light,
+                  statusBarIconBrightness: Brightness.light,
                   statusBarColor: HexColor('262833'),
                 ),
                 backgroundColor: HexColor('262833'),
